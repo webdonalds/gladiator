@@ -12,15 +12,15 @@ addEventListener("scheduled", event => {
   );
 })
 
-async function handleRequest(request) {
-  await handle();
+async function handleRequest(request): Promise<Response> {
+  return await handle();
 }
 
 async function handleSchedule(time) {
   await handle();
 }
 
-async function handle() {
+async function handle(): Promise<Response> {
   const lastTweetIdKey = "LAST_TWEET_ID";
   const lastTweetId = await MOLLUBOT_KV.get(lastTweetIdKey);
   const tweetUrl = `https://api.twitter.com/2/users/1419529986420051968/tweets?since_id=${lastTweetId}`;
@@ -30,13 +30,12 @@ async function handle() {
     },
   });
 
-  const tweets = await response.json();
+  const tweets = await response.json<{ data: Tweet[] }>();
   if (!tweets.data || tweets.data.length === 0) {
     return new Response("ok");
   }
 
-  const webhookUrl = "https://discord.com/api/webhooks/910059241442779147/SE_sh7Xlsxm03yHfrt4iQNiuwo_xYt91DZdRSxWH8av_5Bz5z_k7548Vi0flJzKcBtXy";
-  await fetch(webhookUrl, {
+  await fetch(DISCORD_WEBHOOK_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
