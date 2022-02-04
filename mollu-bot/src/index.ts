@@ -41,10 +41,10 @@ async function handle(): Promise<Response> {
       "Content-Type": "application/json; charset=utf-8",
     },
     body: JSON.stringify({
-      content: tweets.data[0].text,
+      content: tweets.data.map((t) => t.text).join("\n\n"),
     }),
   });
 
-  await MOLLUBOT_KV.put(lastTweetIdKey, tweets.data[0].id);
+  await MOLLUBOT_KV.put(lastTweetIdKey, tweets.data[tweets.data.length - 1].id);
   return new Response("ok");
 }

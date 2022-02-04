@@ -4,4 +4,8 @@
 
 ## Publish
 
-See [official documents](https://developers.cloudflare.com/workers/get-started/guide#7-configure-your-project-for-deployment).
+```shell
+wranger publish
+```
+
+See [official documents](https://developers.cloudflare.com/workers/get-started/guide#7-configure-your-project-for-deployment) for more details.
