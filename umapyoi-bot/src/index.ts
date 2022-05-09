@@ -22,8 +22,8 @@ async function handleSchedule(time) {
 
 async function handle(): Promise<Response> {
   const lastTweetIdKey = "LAST_TWEET_ID";
-  const lastTweetId = await MOLLUBOT_KV.get(lastTweetIdKey);
-  const tweetUrl = `https://api.twitter.com/2/users/1419529986420051968/tweets?since_id=${lastTweetId}`;
+  const lastTweetId = await UMAPYOI_BOT_KV.get(lastTweetIdKey);
+  const tweetUrl = `https://api.twitter.com/2/users/1512011570955841539/tweets?since_id=${lastTweetId}`;
   const response = await fetch(tweetUrl, {
     headers: {
       Authorization: `Bearer ${TWITTER_BEARER_TOKEN}`,
@@ -46,6 +46,6 @@ async function handle(): Promise<Response> {
     }),
   });
 
-  await MOLLUBOT_KV.put(lastTweetIdKey, tweets[tweets.length - 1].id);
+  await UMAPYOI_BOT_KV.put(lastTweetIdKey, tweets[tweets.length - 1].id);
   return new Response("ok");
 }
